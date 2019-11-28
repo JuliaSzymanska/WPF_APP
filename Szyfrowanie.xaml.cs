@@ -45,6 +45,10 @@ namespace Kod
             MessageBox.Show(help);
             // Generate key
             List<bool> keyBytes = new List<bool>();
+            MyType a = new MyType(1);
+            MyType b = new MyType(2);
+            a = b;
+            
 
 
         }
@@ -86,49 +90,49 @@ namespace Kod
         }
         private string text1;
 
-        MyType power(MyType x, MyType y, MyType p)
-        {
-            MyType res = MyType("1");
+        //MyType power(MyType x, MyType y, MyType p)
+        //{
+        //    MyType res = MyType("1");
 
-            x = x % p;
+        //    x = x % p;
 
-            while (y > 0)
-            {
-                if (y % 2 == 1)
-                {
-                    res *= x;
-                    res = res % p;
-                }
+        //    while (y > 0)
+        //    {
+        //        if (y % 2 == 1)
+        //        {
+        //            res *= x;
+        //            res = res % p;
+        //        }
 
-                x *= x;
-                x = x % p;
-                y /= 2;
-            }
-            return res;
-        }
+        //        x *= x;
+        //        x = x % p;
+        //        y /= 2;
+        //    }
+        //    return res;
+        //}
 
-        List<bool> BlumMicali(int size)
-        {
-            a = MyType("509");
-            p = MyType("521");
+        //List<bool> BlumMicali(int size)
+        //{
+        //    a = MyType("509");
+        //    p = MyType("521");
 
-            var random = new Random();
+        //    var random = new Random();
 
-            MyType x0 = random.Next(10, 500);
-            MyType x;
-            cout << endl << "x0 = " << x0 << endl;
+        //    MyType x0 = random.Next(10, 500);
+        //    MyType x;
+        //    cout << endl << "x0 = " << x0 << endl;
 
-            vector<bool> klucz;
+        //    vector<bool> klucz;
 
-            for (int i = 0; i < size * 8; i++)
-            {
-                x = power(a, x0, p);
-                //cout << x << '\t';
-                if (x > (p - 1) / 2) klucz.push_back(1);
-                else klucz.push_back(0);
-                x0 = x;
-            }
-            return klucz;
-        }
+        //    for (int i = 0; i < size * 8; i++)
+        //    {
+        //        x = power(a, x0, p);
+        //        //cout << x << '\t';
+        //        if (x > (p - 1) / 2) klucz.push_back(1);
+        //        else klucz.push_back(0);
+        //        x0 = x;
+        //    }
+        //    return klucz;
+        //}
     }
 }
