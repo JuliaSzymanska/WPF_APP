@@ -37,26 +37,137 @@ namespace Kod
                 i++;
             }
             string help = "";
-            for (int u = 0; u < text1.Length*8; u++)
+            for (int u = 0; u < text1.Length * 8; u++)
             {
                 help += Convert.ToString(Convert.ToInt32(BytesText[u]));
                 if ((u + 1) % 8 == 0) help += "        ";
             }
-            MessageBox.Show(help);
+            MessageBox.Show(help, " POSTAC BINARNA: ");
             // Generate key
             List<bool> keyBytes = new List<bool>();
-            MyType a = new MyType(1);
-            MyType b = new MyType(2);
-            a = b;
-            
+            keyBytes = BlumMicali(text1.Length);
+            MessageBox.Show("wyszedl" );
+            help = "";
+            for (int s = 0; s < text1.Length * 8; s++)
+            {
+                help += keyBytes[s];
+                if ((s + 1) % 8 == 0) help += '\t';
+            }
+            MessageBox.Show(help, " KLUCZ: ");
 
+            //Encryption
+            help = "";
+            List<bool> bitCipher = new List<bool>();
+
+            for (int s = 0; s < text1.Length * 8; s++)
+            {
+                bitCipher.Add(BytesText[s] ^ keyBytes[s]);
+            }
+            for (int s = 0; s < text1.Length * 8; s++)
+            {
+                help += bitCipher[s];
+                if ((s + 1) % 8 == 0) help += '\t';
+            }
+            MessageBox.Show(help, "ZASZYFROWANY CIAG BITOW:");
+
+            // CipherToASCII
+            string ASCIICipher = "";
+            bool[] bits = new bool[8];
+            help = "";
+            for (int s = 0; s < text1.Length; s++)
+            {
+                for (int m = 0; m < 8; m++)
+                {
+                    bits[m] = bitCipher[s * 8 + m];
+                }
+                ASCIICipher += BytesToChars(bits);
+            }
+            help = ASCIICipher;
+            MessageBox.Show(help, "ZASZYFROWANA WIADOMOSC W ASCII: ");
+
+            //Decryption
+            help = "";
+            List<bool> bytesDescription = new List<bool> ();
+            for (int s = 0; s < text1.Length * 8; s++)
+            {
+                bytesDescription.Add(keyBytes[s] ^ bitCipher[s]);
+            }
+            for (int s = 0; i < text1.Length * 8; s++)
+            {
+                help+= bytesDescription[s];
+                if ((s + 1) % 8 == 0)help+= '\t';
+            }
+            MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
+
+
+            // Descryption to ASCII
+            string ASCII = "";
+            bool[] bity = new bool[8];
+            for (int s = 0; s < text1.Length; s++)
+            {
+                for (int m = 0; m < 8; m++)
+                {
+                    bity[m] = bytesDescription[s * 8 + m];
+                }
+                ASCII += BytesToChars(bity);
+            }
+            MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
 
         }
 
 
+
+        MyType power(MyType x, MyType y, MyType p)
+        {
+            MyType res = new MyType("1", 1);
+
+            x = x % p;
+            MessageBox.Show("%");
+            while (y.getNumber() > 0)
+            {
+                if (y % 2 == 1)
+                {
+                    res *= x;
+                    res = res % p;
+                }
+
+                x *= x;
+                x = x % p;
+                y = y.DzielRow(y, 2);
+                MessageBox.Show("dzielro");
+            }
+            return res;
+        }
+
+        List<bool> BlumMicali(int size)
+        {
+            MyType a = new MyType("q",509);
+            MyType p = new MyType("f",521);
+            var random = new Random();
+
+            MyType x0 = new MyType(random.Next(10, 500));
+            MyType x = new MyType(1);
+            string ccout = "x0 = " + Convert.ToString(x0.getNumber());
+            MessageBox.Show(ccout);
+            List<bool> klucz = new List<bool>();
+            int k = 0;
+            int l = 0;
+            for (int s = 0; s < size * 8; s++)
+            {
+                x = power(a, x0, p);
+                MessageBox.Show("jest w for");
+                k = x.getNumber();
+                l = (p.getNumber() - 1) / 2;
+                if (k > l) klucz.Add(true);
+                else klucz.Add(false);
+                x0 = x;
+            }
+            return klucz;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           MessageBox.Show(text1);
+            MessageBox.Show(text1);
         }
 
 
@@ -90,6 +201,6 @@ namespace Kod
         }
         private string text1;
 
-        
+
     }
 }

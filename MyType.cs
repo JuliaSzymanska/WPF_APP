@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 
 namespace Kod
 {
@@ -18,6 +19,10 @@ namespace Kod
         public MyType(int lo)
         {
             this.number = lo;
+        }
+        public MyType(string s, int l)
+        {
+            list.Add(l);
         }
         public MyType(string str)
         {
@@ -77,20 +82,21 @@ namespace Kod
             return w.divmod(w, v).Item2;
         }
 
-        public static int operator %(MyType w, int v) {
-                if (v< 0)
-                    v = -v;
-                int m = 0;
-                for (int i = w.list.Count - 1; i >= 0; --i)
-                    m =(int)((w.list[i] + m* (long) basic) % v);
-                return m* w.number;
-    }
+        public static int operator %(MyType w, int v)
+        {
+            if (v < 0)
+                v = -v;
+            int m = 0;
+            for (int i = w.list.Count - 1; i >= 0; --i)
+                m = (int)((w.list[i] + m * (long)basic) % v);
+            return m * w.number;
+        }
         public MyType DzielRow(MyType w, int v)
         {
             if (v < 0) { w.number = -w.number; v = -v; }
             for (int i = (int)w.list.Count - 1, rem = 0; i >= 0; --i)
             {
-                long cur = w.list[i] + rem * (long) basic;
+                long cur = w.list[i] + rem * (long)basic;
                 w.list[i] = (int)(cur / v);
                 rem = (int)(cur % v);
             }
@@ -98,7 +104,7 @@ namespace Kod
             return w;
         }
 
-    public static MyType operator /(int v, MyType w)
+        public static MyType operator /(int v, MyType w)
         {
             MyType res = w;
             if (v < 0)
@@ -169,11 +175,20 @@ namespace Kod
         }
         public static MyType operator *(MyType w, MyType v)
         {
-            //std::vector<int> a6 = convert_base(w.list, basic_digits, 6);
-            List<int> a6 = new List<int>(w.convert_base(w.list, basic_digits, 6));
-            List<int> b6 = new List<int>(w.convert_base(v.list, basic_digits, 6));
-            List<long> a = new List<long>(a6[0], a6[a6.Count - 1]);
-            List<long> b = new List<long>(b6[0], b6[b6.Count - 1]);
+            List<int> a6 = new List<int>();
+            a6 = w.convert_base(w.list, basic_digits, 6);
+            List<int> b6 = new List<int>();
+            b6 = w.convert_base(v.list, basic_digits, 6);
+            List<long> a = new List<long>();
+            for (int i = 0; i <= a6[0]; i++)
+            {
+                a.Add(a6[a6.Count - 1]);
+            }
+            List<long> b = new List<long>();
+            for (int i = 0; i <= b6[0]; i++)
+            {
+                a.Add(b6[b6.Count - 1]);
+            }
             while (a.Count < b.Count)
                 a.Add(0);
             while (b.Count < a.Count)
@@ -209,8 +224,10 @@ namespace Kod
         }
         public void trim()
         {
+
             while (list.Count != 0)
-                list.Remove(list.Count - 1);
+                list.Remove(list[list.Count-1]);
+            MessageBox.Show("trim 1 ");
             if (list.Count == 0)
                 number = 1;
         }
@@ -241,7 +258,7 @@ namespace Kod
         public List<int> convert_base(List<int> a, int old_digits, int new_digits)
         {
             List<long> p = new List<long>(Math.Max(old_digits, new_digits) + 1);
-            p[0] = 1;
+            p.Add(1);
             for (int i = 1; i < (int)p.Count; i++)
                 p[i] = p[i - 1] * 10;
             List<int> res = new List<int>();
@@ -265,8 +282,10 @@ namespace Kod
         }
         MyType abs()
         {
-            MyType res = this;
-            res.number *= res.number;
+            MyType res = new MyType();
+            res = this;
+            res.number = res.number * res.number;
+            MessageBox.Show("utworzony abs");
             return res;
         }
         public int getBasic()
@@ -277,22 +296,27 @@ namespace Kod
         {
             if (v < 0)
             { w.number = -w.number; v = -v; }
-            for (int i = 0, carry = 0; (i < (int)w.list.Count) || carry == 0; ++i)
+            for (int i = 0, carry = 0; (i < (w.list.Count) || carry != 0); ++i) // || carry != 0); ++i)
             {
-                if (i == (int)w.list.Count)
+                MessageBox.Show("mnozenie rowne", w.list.Count.ToString());
+                if (i == w.list.Count)
                     w.list.Add(0);
                 long cur = w.list[i] * (long)v + carry;
                 carry = (int)(cur / w.getBasic());
                 w.list[i] = (int)(cur % w.getBasic());
             }
-            trim();
+
+            w.trim();
+            MessageBox.Show("wyszedl z for", w.list.Count.ToString());
             return w;
         }
 
         public static MyType operator *(MyType w, int v)
         {
-            MyType res = w;
-            res *= v;
+            MessageBox.Show("jest w *");
+            MyType res = new MyType();
+            res = w;
+            res = res.mnozenieirowne(res, v);
             return res;
         }
 
@@ -306,16 +330,26 @@ namespace Kod
             w.number += i;
             return w;
         }
-
+        public MyType rowne(MyType w, MyType v)
+        {
+            w.number = v.number;
+            w.list = v.list;
+            MessageBox.Show("rowne");
+            return w;
+        }
 
         Tuple<MyType, MyType> divmod(MyType a1, MyType b1)
         {
-            int norm = basic / (b1.list[b1.list.Count] + 1);
-            MyType a = a1.abs() * norm;
-            MyType b = b1.abs() * norm;
+            int norm = basic / (b1.list[b1.list.Count - 1] + 1);
+            MyType a = new MyType();
+            a = a1.abs() * norm;
+            MessageBox.Show("jest w % po abs");
+            MyType b = new MyType();
+            b = b1.abs() * norm;
+
             int pom = 1;
             MyType q = new MyType(pom); MyType r = new MyType(pom);
-
+            MessageBox.Show("jest w % przed for");
             for (int i = a.list.Count - 1; i >= 0; i--)
             {
                 r = r.mnozenieirowne(r, basic);
@@ -350,11 +384,26 @@ namespace Kod
             }
 
             int k = n >> 1;
-            List< long> a1(a.begin(), a.begin() + k);
-            List<long> a2(a.begin() + k, a.end());
-            List<long> b1(b.begin(), b.begin() + k);
-            List<long> b2(b.begin() + k, b.end());
-
+            List<long> a1 = new List<long>();
+            for (int i = 0; i <= a[0]; i++)
+            {
+                a.Add(a[0] + k);
+            }
+            List<long> a2 = new List<long>();
+            for (int i = 0; i <= a[0] + k; i++)
+            {
+                a.Add(a[a.Count - 1]);
+            }
+            List<long> b1 = new List<long>();
+            for (int i = 0; i <= b[0]; i++)
+            {
+                a.Add(b[0] + k);
+            }
+            List<long> b2 = new List<long>();
+            for (int i = 0; i <= b[0] + k; i++)
+            {
+                a.Add(b[b.Count + 1]);
+            }
             List<long> a1b1 = karatsubaMultiply(a1, b1);
             List<long> a2b2 = karatsubaMultiply(a2, b2);
 

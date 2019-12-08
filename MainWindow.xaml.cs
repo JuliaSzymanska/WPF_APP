@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Kod
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private object Service;
