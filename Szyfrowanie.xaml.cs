@@ -119,19 +119,22 @@ namespace Kod
 
         MyType power(MyType x, MyType y, MyType p)
         {
-            MyType res = new MyType("1", 1);
-
+            MyType res = new MyType();
+            res = res.stringKonst(res, 1);
+            MessageBox.Show("rozmiar x", x.getSize().ToString());
             x = x % p;
-            MessageBox.Show("%");
+            MessageBox.Show("rozmiar x", x.getSize().ToString());
             while (y.getNumber() > 0)
             {
                 if (y % 2 == 1)
                 {
-                    res *= x;
+                    res = res.mnozenierowneMyType(res, x);
+                    //res *= x;
                     res = res % p;
                 }
-
-                x *= x;
+                MessageBox.Show("dzielro");
+                x = x.mnozenierowneMyType(x, x);
+                //x *= x;
                 x = x % p;
                 y = y.DzielRow(y, 2);
                 MessageBox.Show("dzielro");
@@ -141,10 +144,12 @@ namespace Kod
 
         List<bool> BlumMicali(int size)
         {
-            MyType a = new MyType("q",509);
-            MyType p = new MyType("f",521);
+            MyType a = new MyType();
+            a = a.stringKonst(a,509);
+            MyType p = new MyType();
+            p = p.stringKonst(p,521); 
             var random = new Random();
-
+            MessageBox.Show("rozmiar a", a.getSize().ToString());
             MyType x0 = new MyType(random.Next(10, 500));
             MyType x = new MyType(1);
             string ccout = "x0 = " + Convert.ToString(x0.getNumber());

@@ -20,15 +20,20 @@ namespace Kod
         {
             this.number = lo;
         }
-        public MyType(string s, int l)
+        public MyType stringKonst(MyType w, int l)
         {
-            list.Add(l);
+            w.list.Add(l);
+            if (l < 0) w.number = -w.number;
+            return w;
         }
         public MyType(string str)
         {
             read(str);
         }
-
+        public int getSize()
+        {
+            return list.Count;
+        }
         public int getNumber() { return number; }
         public static MyType operator +(MyType w, MyType v)
         {
@@ -94,7 +99,7 @@ namespace Kod
         public MyType DzielRow(MyType w, int v)
         {
             if (v < 0) { w.number = -w.number; v = -v; }
-            for (int i = (int)w.list.Count - 1, rem = 0; i >= 0; --i)
+            for (int i = w.list.Count - 1, rem = 0; i >= 0; --i)
             {
                 long cur = w.list[i] + rem * (long)basic;
                 w.list[i] = (int)(cur / v);
@@ -176,7 +181,9 @@ namespace Kod
         public static MyType operator *(MyType w, MyType v)
         {
             List<int> a6 = new List<int>();
+            MessageBox.Show("w ma wielkosc", w.list.Count.ToString());
             a6 = w.convert_base(w.list, basic_digits, 6);
+            MessageBox.Show("A6 ma wielkosc", a6.Count.ToString());
             List<int> b6 = new List<int>();
             b6 = w.convert_base(v.list, basic_digits, 6);
             List<long> a = new List<long>();
@@ -227,7 +234,6 @@ namespace Kod
 
             while (list.Count != 0)
                 list.Remove(list[list.Count-1]);
-            MessageBox.Show("trim 1 ");
             if (list.Count == 0)
                 number = 1;
         }
@@ -240,7 +246,7 @@ namespace Kod
             number = 1;
             list.Clear();
             int pos = 0;
-            while (pos < (int)s.Length && (s[pos] == '-' || s[pos] == '+'))
+            while (pos < s.Length && (s[pos] == '-' || s[pos] == '+'))
             {
                 if (s[pos] == '-')
                     number = -number;
@@ -255,19 +261,26 @@ namespace Kod
             }
             trim();
         }
-        public List<int> convert_base(List<int> a, int old_digits, int new_digits)
+        public List<int> convert_base(List<int> l, int old_digits, int new_digits)
         {
-            List<long> p = new List<long>(Math.Max(old_digits, new_digits) + 1);
-            p.Add(1);
-            for (int i = 1; i < (int)p.Count; i++)
+            List<long> p = new List<long>();//(Math.Max(old_digits, new_digits) + 1);
+            for(int k=0; k< Math.Max(old_digits, new_digits) + 1; k++)
+            {
+                p.Add(1);
+            }
+            for (int i = 1; i < p.Count; i++)
                 p[i] = p[i - 1] * 10;
+
             List<int> res = new List<int>();
             long cur = 0;
             int cur_digits = 0;
-            for (int i = 0; i < (int)a.Count; i++)
+                MessageBox.Show("l count", l.Count.ToString());
+
+            for (int i = 0; i < l.Count; i++)
             {
-                cur += a[i] * p[cur_digits];
+                cur += l[i] * p[cur_digits];
                 cur_digits += old_digits;
+                MessageBox.Show("cur dif", cur_digits.ToString());
                 while (cur_digits >= new_digits)
                 {
                     res.Add((int)(cur % p[new_digits]));
@@ -276,8 +289,10 @@ namespace Kod
                 }
             }
             res.Add((int)cur);
-            while (res.Count != 0)
-                res.Remove(res.Count - 1);
+            MessageBox.Show("rozmiar res", res.Count.ToString()); 
+            //while (res.Count != 0 && res[res.Count-1]==0)
+            //    res.Remove(res[res.Count - 1]);
+MessageBox.Show("rozmiar res ost", res.Count.ToString());
             return res;
         }
         MyType abs()
@@ -285,35 +300,37 @@ namespace Kod
             MyType res = new MyType();
             res = this;
             res.number = res.number * res.number;
-            MessageBox.Show("utworzony abs");
             return res;
         }
         public int getBasic()
         {
             return basic;
         }
+        public MyType mnozenierowneMyType (MyType w, MyType v)
+        {
+            w = w * v;
+            return w;
+        }
         public MyType mnozenieirowne(MyType w, int v)
         {
             if (v < 0)
             { w.number = -w.number; v = -v; }
-            for (int i = 0, carry = 0; (i < (w.list.Count) || carry != 0); ++i) // || carry != 0); ++i)
+            for (int i = 0, carry = 0; (i < (w.list.Count) || carry != 0); ++i)
             {
-                MessageBox.Show("mnozenie rowne", w.list.Count.ToString());
                 if (i == w.list.Count)
-                    w.list.Add(0);
+                   { w.list.Add(0); MessageBox.Show("jestem w mnoz"); }
+
                 long cur = w.list[i] * (long)v + carry;
                 carry = (int)(cur / w.getBasic());
                 w.list[i] = (int)(cur % w.getBasic());
             }
 
             w.trim();
-            MessageBox.Show("wyszedl z for", w.list.Count.ToString());
             return w;
         }
 
         public static MyType operator *(MyType w, int v)
         {
-            MessageBox.Show("jest w *");
             MyType res = new MyType();
             res = w;
             res = res.mnozenieirowne(res, v);
@@ -334,7 +351,6 @@ namespace Kod
         {
             w.number = v.number;
             w.list = v.list;
-            MessageBox.Show("rowne");
             return w;
         }
 
@@ -343,13 +359,15 @@ namespace Kod
             int norm = basic / (b1.list[b1.list.Count - 1] + 1);
             MyType a = new MyType();
             a = a1.abs() * norm;
-            MessageBox.Show("jest w % po abs");
             MyType b = new MyType();
             b = b1.abs() * norm;
 
             int pom = 1;
             MyType q = new MyType(pom); MyType r = new MyType(pom);
-            MessageBox.Show("jest w % przed for");
+            for(int l = 0; l < a.list.Count; l++)
+            {
+                q.list.Add(0);
+            }
             for (int i = a.list.Count - 1; i >= 0; i--)
             {
                 r = r.mnozenieirowne(r, basic);
@@ -362,7 +380,6 @@ namespace Kod
                 { r += b; --d; }
                 q.list[i] = d;
             }
-
             q.number = a1.number * b1.number;
             r.number = a1.number;
             q.trim();
