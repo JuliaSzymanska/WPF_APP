@@ -6,6 +6,7 @@ using System.Windows;
 
 namespace Kod
 {
+
     class MyType
     {
         public const int basic = 1000000000;
@@ -20,15 +21,21 @@ namespace Kod
         {
             this.number = lo;
         }
+        public MyType(long v)
+        {
+            number = 1;
+            list.Clear();
+            if (v < 0)
+            { number = -1; v = -v; }
+            for (; v > 0; v = v / basic)
+                list.Add((int)(v % basic));
+        }
+
         public MyType stringKonst(MyType w, int l)
         {
             w.list.Add(l);
             if (l < 0) w.number = -w.number;
             return w;
-        }
-        public MyType(string str)
-        {
-            read(str);
         }
         public int getSize()
         {
@@ -37,17 +44,18 @@ namespace Kod
         public int getNumber() { return number; }
         public static MyType operator +(MyType w, MyType v)
         {
-            MyType res = w;
+
             if (w.number == v.number)
             {
-
-                for (int i = 0, carry = 0; i < (int)(Math.Max(w.list.Count, v.list.Count)) || carry == 0; ++i)
+                MyType res = new MyType();
+                res = v;
+                for (int i = 0, carry = 0; i < (int)(Math.Max(w.list.Count, v.list.Count)) || carry != 0; ++i)
                 {
                     if (i == (int)res.list.Count)
                         res.list.Add(0);
                     res.list[i] += carry + (i < (int)w.list.Count ? w.list[i] : 0);
                     carry = Convert.ToInt32((res.list[i] >= basic));
-                    if (Convert.ToBoolean(carry))
+                    if (carry != 0)
                         res.list[i] -= basic;
                 }
                 return res;
@@ -57,23 +65,24 @@ namespace Kod
 
         public static MyType operator -(MyType w, MyType v)
         {
-            MyType res = w;
+
             if (w.number == v.number)
             {
                 if (w.abs() >= v.abs())
                 {
-
-                    for (int i = 0, carry = 0; i < (int)v.list.Count || carry == 0; ++i)
+                    MyType res = new MyType();
+                    res = w;
+                    for (int i = 0, carry = 0; i < (int)v.list.Count || carry != 0; ++i)
                     {
                         res.list[i] -= carry + (i < (int)v.list.Count ? v.list[i] : 0);
                         carry = Convert.ToInt32(res.list[i] < 0);
-                        if (Convert.ToBoolean(carry))
+                        if (carry!=0)
                             res.list[i] += basic;
                     }
                     res.trim();
                     return res;
                 }
-                return -res;
+                return -(v - w);
             }
             return w + (-v);
         }
@@ -109,18 +118,22 @@ namespace Kod
             return w;
         }
 
-        public static MyType operator /(int v, MyType w)
+        public static MyType operator /(MyType w, int v)
         {
-            MyType res = w;
-            if (v < 0)
-            { w.number = -w.number; v = -v; }
-            for (int i = w.list.Count - 1, rem = 0; i >= 0; --i)
-            {
-                long cur = w.list[i] + rem * (long)basic;
-                w.list[i] = (int)(cur / v);
-                rem = (int)(cur % v);
-            }
-            w.trim();
+            //MyType res = w;
+            //if (v < 0)
+            //{ w.number = -w.number; v = -v; }
+            //for (int i = w.list.Count - 1, rem = 0; i >= 0; --i)
+            //{
+            //    long cur = w.list[i] + rem * (long)basic;
+            //    w.list[i] = (int)(cur / v);
+            //    rem = (int)(cur % v);
+            //}
+            //w.trim();
+            //return res;
+            MyType res = new MyType();
+            res = w;
+            res = res.DzielRow(res, v);
             return res;
         }
 
@@ -132,13 +145,12 @@ namespace Kod
         public static bool operator <(MyType w, MyType v)
         {
             if (w.number != v.number)
-            { return w.number < v.number; }
+             return w.number < v.number; 
             if (w.list.Count != v.list.Count)
-            { return w.list.Count * w.number < v.list.Count * v.number; }
+             return w.list.Count * w.number < v.list.Count * v.number; 
             for (int i = w.list.Count - 1; i >= 0; i--)
                 if (w.list[i] != v.list[i])
-                { return w.list[i] * w.number < v.list[i] * w.number; }
-
+                 return w.list[i] * w.number < v.list[i] * w.number; 
             return false;
         }
 
@@ -159,14 +171,13 @@ namespace Kod
 
         public static bool operator ==(MyType w, MyType v)
         {
-            return (!(w < v) && !(v < w));
+            return ((w < v) && (v < w));
         }
 
         public static MyType operator -(MyType w)
         {
-            MyType res = w;
-            res.number = -w.number;
-            return res;
+            w.number = -w.number;
+            return w;
         }
         public string operatormniejszy(string chain, MyType v)
         {
@@ -181,9 +192,7 @@ namespace Kod
         public static MyType operator *(MyType w, MyType v)
         {
             List<int> a6 = new List<int>();
-            MessageBox.Show("w ma wielkosc", w.list.Count.ToString());
             a6 = w.convert_base(w.list, basic_digits, 6);
-            MessageBox.Show("A6 ma wielkosc", a6.Count.ToString());
             List<int> b6 = new List<int>();
             b6 = w.convert_base(v.list, basic_digits, 6);
             List<long> a = new List<long>();
@@ -194,18 +203,19 @@ namespace Kod
             List<long> b = new List<long>();
             for (int i = 0; i <= b6[0]; i++)
             {
-                a.Add(b6[b6.Count - 1]);
+                b.Add(b6[b6.Count - 1]);
             }
             while (a.Count < b.Count)
                 a.Add(0);
             while (b.Count < a.Count)
                 b.Add(0);
-            while (a.Count != 0)
+            while (a.Count != 0 && a.Count - 1 != 0)
             { a.Add(0); b.Add(0); }
             List<long> c = new List<long>();
             c = w.karatsubaMultiply(a, b);
-            MyType res = new MyType(w.number * v.number);
-            for (int i = 0, carry = 0; i < (int)c.Count; i++)
+            MyType res = new MyType();
+            res.number = w.number * v.number;
+            for (int i = 0, carry = 0; i < c.Count; i++)
             {
                 long cur = c[i] + carry;
                 res.list.Add((int)(cur % 1000000));
@@ -231,40 +241,20 @@ namespace Kod
         }
         public void trim()
         {
-
-            while (list.Count != 0)
-                list.Remove(list[list.Count-1]);
+            while (list.Count != 0 && list[list.Count-1]==0)
+                list.Remove(list[list.Count - 1]);
             if (list.Count == 0)
                 number = 1;
         }
         public bool isZero()
         {
-            return list.Count == 0 || (list.Count == 1);
+            return list.Count == 0 || (list.Count == 1 && list[0]==0);
         }
-        public void read(string s)
-        {
-            number = 1;
-            list.Clear();
-            int pos = 0;
-            while (pos < s.Length && (s[pos] == '-' || s[pos] == '+'))
-            {
-                if (s[pos] == '-')
-                    number = -number;
-                ++pos;
-            }
-            for (int i = s.Length - 1; i >= pos; i -= basic_digits)
-            {
-                int x = 0;
-                for (int j = Math.Max(pos, i - basic_digits + 1); j <= i; j++)
-                    x = x * 10 + s[j] - '0';
-                list.Add(x);
-            }
-            trim();
-        }
+
         public List<int> convert_base(List<int> l, int old_digits, int new_digits)
         {
-            List<long> p = new List<long>();//(Math.Max(old_digits, new_digits) + 1);
-            for(int k=0; k< Math.Max(old_digits, new_digits) + 1; k++)
+            List<long> p = new List<long>();
+            for (int k = 0; k < Math.Max(old_digits, new_digits) + 1; k++)
             {
                 p.Add(1);
             }
@@ -274,13 +264,11 @@ namespace Kod
             List<int> res = new List<int>();
             long cur = 0;
             int cur_digits = 0;
-                MessageBox.Show("l count", l.Count.ToString());
 
             for (int i = 0; i < l.Count; i++)
             {
                 cur += l[i] * p[cur_digits];
                 cur_digits += old_digits;
-                MessageBox.Show("cur dif", cur_digits.ToString());
                 while (cur_digits >= new_digits)
                 {
                     res.Add((int)(cur % p[new_digits]));
@@ -289,10 +277,8 @@ namespace Kod
                 }
             }
             res.Add((int)cur);
-            MessageBox.Show("rozmiar res", res.Count.ToString()); 
-            //while (res.Count != 0 && res[res.Count-1]==0)
-            //    res.Remove(res[res.Count - 1]);
-MessageBox.Show("rozmiar res ost", res.Count.ToString());
+            while (res.Count != 0 && res[res.Count - 1] == 0) // tutaj powinno byc res[...]==0
+                res.Remove(res[res.Count - 1]);
             return res;
         }
         MyType abs()
@@ -306,7 +292,7 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
         {
             return basic;
         }
-        public MyType mnozenierowneMyType (MyType w, MyType v)
+        public MyType mnozenierowneMyType(MyType w, MyType v)
         {
             w = w * v;
             return w;
@@ -318,7 +304,7 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
             for (int i = 0, carry = 0; (i < (w.list.Count) || carry != 0); ++i)
             {
                 if (i == w.list.Count)
-                   { w.list.Add(0); MessageBox.Show("jestem w mnoz"); }
+                { w.list.Add(0); }
 
                 long cur = w.list[i] * (long)v + carry;
                 carry = (int)(cur / w.getBasic());
@@ -328,8 +314,29 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
             w.trim();
             return w;
         }
-
+        public MyType mnozenieirowne(MyType w, long v)
+        {
+            if (v < 0)
+            { w.number = -w.number; v = -v; }
+            for (int i = 0, carry = 0; i < (int)w.list.Count || carry!=0; ++i)
+            {
+                if (i == w.list.Count)
+                    w.list.Add(0);
+                long cur = w.list[i] * (long) v + carry;
+            carry = (int)(cur / basic);
+            w.list[i] = (int)(cur % basic);
+        }
+        trim();
+            return w;
+    }
         public static MyType operator *(MyType w, int v)
+        {
+            MyType res = new MyType();
+            res = w;
+            res = res.mnozenieirowne(res, v);
+            return res;
+        }
+        public static MyType operator *(MyType w, long v)
         {
             MyType res = new MyType();
             res = w;
@@ -363,8 +370,9 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
             b = b1.abs() * norm;
 
             int pom = 1;
-            MyType q = new MyType(pom); MyType r = new MyType(pom);
-            for(int l = 0; l < a.list.Count; l++)
+            MyType q = new MyType(pom);
+            MyType r = new MyType(pom);
+            for (int l = 0; l < a.list.Count; l++)
             {
                 q.list.Add(0);
             }
@@ -374,7 +382,7 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
                 r = r.PlusmMnoz(r, a.list[i]);
                 int s1 = r.list.Count <= b.list.Count ? 0 : r.list[b.list.Count];
                 int s2 = r.list.Count <= b.list.Count - 1 ? 0 : r.list[b.list.Count - 1];
-                int d = ((basic * s1 + s2)) / (b.list[b.list.Count]);
+                int d = ((basic * s1 + s2)) / (b.list[b.list.Count - 1]);
                 r -= b * d;
                 while (r.number < 0)
                 { r += b; --d; }
@@ -384,19 +392,25 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
             r.number = a1.number;
             q.trim();
             r.trim();
-            r.number = r.number / norm;
+            r = r / norm;
             Tuple<MyType, MyType> par = new Tuple<MyType, MyType>(q, r);
             return par;
         }
         List<long> karatsubaMultiply(List<long> a, List<long> b)
         {
-            int n = a.Count;
-            List<long> res = new List<long>(n + n);
+            int n = a.Count; 
+            List<long> res = new List<long>();
+            for (int i = 0; i < n + n; i++)
+            {
+                res.Add(0);
+            }
             if (n <= 32)
             {
                 for (int i = 0; i < n; i++)
                     for (int j = 0; j < n; j++)
+                    {
                         res[i + j] += a[i] * b[j];
+                    }
                 return res;
             }
 
@@ -404,32 +418,34 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
             List<long> a1 = new List<long>();
             for (int i = 0; i <= a[0]; i++)
             {
-                a.Add(a[0] + k);
+                a1.Add(a[0] + k);
             }
             List<long> a2 = new List<long>();
             for (int i = 0; i <= a[0] + k; i++)
             {
-                a.Add(a[a.Count - 1]);
+                a2.Add(a[a.Count - 1]);
             }
             List<long> b1 = new List<long>();
             for (int i = 0; i <= b[0]; i++)
             {
-                a.Add(b[0] + k);
+                b1.Add(b[0] + k);
             }
             List<long> b2 = new List<long>();
             for (int i = 0; i <= b[0] + k; i++)
             {
-                a.Add(b[b.Count + 1]);
+                b1.Add(b[b.Count + 1]);
             }
-            List<long> a1b1 = karatsubaMultiply(a1, b1);
-            List<long> a2b2 = karatsubaMultiply(a2, b2);
+            List<long> a1b1 = new List<long>();
+            a1b1 = karatsubaMultiply(a1, b1);
+            List<long> a2b2 = new List<long>();
+            a2b2 = karatsubaMultiply(a2, b2);
 
             for (int i = 0; i < k; i++)
                 a2[i] += a1[i];
             for (int i = 0; i < k; i++)
                 b2[i] += b1[i];
-
-            List<long> r = karatsubaMultiply(a2, b2);
+            List<long> r = new List<long>();
+            r = karatsubaMultiply(a2, b2);
             for (int i = 0; i < (int)a1b1.Count; i++)
                 r[i] -= a1b1[i];
             for (int i = 0; i < (int)a2b2.Count; i++)
@@ -443,11 +459,5 @@ MessageBox.Show("rozmiar res ost", res.Count.ToString());
                 res[i + n] += a2b2[i];
             return res;
         }
-
-
-
-
-
-
     }
 }

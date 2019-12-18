@@ -11,7 +11,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
 namespace Kod
 {
     public partial class Szyfrowanie : Page
@@ -40,13 +39,13 @@ namespace Kod
             for (int u = 0; u < text1.Length * 8; u++)
             {
                 help += Convert.ToString(Convert.ToInt32(BytesText[u]));
-                if ((u + 1) % 8 == 0) help += "        ";
+                if ((u + 1) % 8 == 0) help += '\t';
             }
             MessageBox.Show(help, " POSTAC BINARNA: ");
+
             // Generate key
             List<bool> keyBytes = new List<bool>();
             keyBytes = BlumMicali(text1.Length);
-            MessageBox.Show("wyszedl" );
             help = "";
             for (int s = 0; s < text1.Length * 8; s++)
             {
@@ -121,23 +120,17 @@ namespace Kod
         {
             MyType res = new MyType();
             res = res.stringKonst(res, 1);
-            MessageBox.Show("rozmiar x", x.getSize().ToString());
             x = x % p;
-            MessageBox.Show("rozmiar x", x.getSize().ToString());
-            while (y.getNumber() > 0)
+            while (y.getNumber() >0)
             {
                 if (y % 2 == 1)
                 {
                     res = res.mnozenierowneMyType(res, x);
-                    //res *= x;
                     res = res % p;
                 }
-                MessageBox.Show("dzielro");
                 x = x.mnozenierowneMyType(x, x);
-                //x *= x;
                 x = x % p;
                 y = y.DzielRow(y, 2);
-                MessageBox.Show("dzielro");
             }
             return res;
         }
@@ -149,7 +142,6 @@ namespace Kod
             MyType p = new MyType();
             p = p.stringKonst(p,521); 
             var random = new Random();
-            MessageBox.Show("rozmiar a", a.getSize().ToString());
             MyType x0 = new MyType(random.Next(10, 500));
             MyType x = new MyType(1);
             string ccout = "x0 = " + Convert.ToString(x0.getNumber());
@@ -160,7 +152,6 @@ namespace Kod
             for (int s = 0; s < size * 8; s++)
             {
                 x = power(a, x0, p);
-                MessageBox.Show("jest w for");
                 k = x.getNumber();
                 l = (p.getNumber() - 1) / 2;
                 if (k > l) klucz.Add(true);
@@ -182,7 +173,7 @@ namespace Kod
         public bool[] CharsToBytes(char chars)
         {
             bool[] bytes = new bool[8];
-            j = 7;
+            int j = 7;
             do
             {
                 bytes[j] = Convert.ToBoolean((int)chars % 2);
@@ -197,15 +188,13 @@ namespace Kod
         {
             char chars = (char)0;
             int ch = 0;
-            for (j = 7; j >= 0; j--)
+            for (int j = 7; j >= 0; j--)
             {
                 ch += Convert.ToInt32(Convert.ToInt64(bytes[j]) * (int)(Math.Pow(2, 7 - j)));
             }
-            chars = (char)ch;
+            chars += (char)ch;
             return chars;
         }
         private string text1;
-
-
     }
 }
