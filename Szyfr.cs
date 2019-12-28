@@ -1,25 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Kod
 {
-    public partial class Szyfrowanie : Page
+    class Szyfr 
     {
-        public Szyfrowanie(string text)
+        public void main(string text)
         {
             // To bytes
             text1 = text;
-            InitializeComponent();
             MessageBox.Show(text1, "Podany tekst to: ");
             char sign;
             int i = 0;
@@ -49,7 +39,7 @@ namespace Kod
             help = "";
             for (int s = 0; s < text1.Length * 8; s++)
             {
-                help += keyBytes[s];
+                help += Convert.ToInt32(keyBytes[s]);
                 if ((s + 1) % 8 == 0) help += '\t';
             }
             MessageBox.Show(help, " KLUCZ: ");
@@ -64,7 +54,7 @@ namespace Kod
             }
             for (int s = 0; s < text1.Length * 8; s++)
             {
-                help += bitCipher[s];
+                help += Convert.ToInt32(bitCipher[s]);
                 if ((s + 1) % 8 == 0) help += '\t';
             }
             MessageBox.Show(help, "ZASZYFROWANY CIAG BITOW:");
@@ -86,15 +76,15 @@ namespace Kod
 
             //Decryption
             help = "";
-            List<bool> bytesDescription = new List<bool> ();
+            List<bool> bytesDescription = new List<bool>();
             for (int s = 0; s < text1.Length * 8; s++)
             {
                 bytesDescription.Add(keyBytes[s] ^ bitCipher[s]);
             }
-            for (int s = 0; i < text1.Length * 8; s++)
+            for (int s = 0; s < bytesDescription.Count; s++)
             {
-                help+= bytesDescription[s];
-                if ((s + 1) % 8 == 0)help+= '\t';
+                help += Convert.ToInt32(bytesDescription[s]);
+                if ((s + 1) % 8 == 0) help += '\t';
             }
             MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
 
@@ -111,50 +101,46 @@ namespace Kod
                 ASCII += BytesToChars(bity);
             }
             MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
-
+            return;
         }
+        
+        public int j = 7;
+        private string text1;
 
-
-
-        MyType power(MyType x, MyType y, MyType p)
+        BigInteger power(BigInteger x, BigInteger y, BigInteger p)
         {
-            MyType res = new MyType();
-            res = res.stringKonst(res, 1);
+            BigInteger res = new BigInteger(1);
             x = x % p;
-            while (y.getNumber() >0)
+            BigInteger zero = new BigInteger(0);
+            while (y > zero)
             {
-                if (y % 2 == 1)
+                if ((y % 2) == 1)
                 {
-                    res = res.mnozenierowneMyType(res, x);
+                    res *= x;
                     res = res % p;
                 }
-                x = x.mnozenierowneMyType(x, x);
+                x *= x;
                 x = x % p;
-                y = y.DzielRow(y, 2);
+                y /= 2;
             }
             return res;
         }
 
         List<bool> BlumMicali(int size)
         {
-            MyType a = new MyType();
-            a = a.stringKonst(a,509);
-            MyType p = new MyType();
-            p = p.stringKonst(p,521); 
+            BigInteger a = new BigInteger(509);
+            BigInteger p = new BigInteger(521);
             var random = new Random();
-            MyType x0 = new MyType(random.Next(10, 500));
-            MyType x = new MyType(1);
-            string ccout = "x0 = " + Convert.ToString(x0.getNumber());
+            BigInteger x0 = new BigInteger(random.Next(10, 500));
+            BigInteger x = new BigInteger(1);
+            string ccout = "x0 = " + Convert.ToString(x0);
             MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
-            int k = 0;
-            int l = 0;
+
             for (int s = 0; s < size * 8; s++)
             {
                 x = power(a, x0, p);
-                k = x.getNumber();
-                l = (p.getNumber() - 1) / 2;
-                if (k > l) klucz.Add(true);
+                if (x > (p - 1) / 2) klucz.Add(true);
                 else klucz.Add(false);
                 x0 = x;
             }
@@ -165,10 +151,6 @@ namespace Kod
         {
             MessageBox.Show(text1);
         }
-
-
-        public int j = 7;
-
 
         public bool[] CharsToBytes(char chars)
         {
@@ -183,7 +165,6 @@ namespace Kod
             return bytes;
         }
 
-
         public char BytesToChars(bool[] bytes)
         {
             char chars = (char)0;
@@ -195,6 +176,6 @@ namespace Kod
             chars += (char)ch;
             return chars;
         }
-        private string text1;
+        
     }
 }
