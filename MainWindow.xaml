@@ -30,8 +30,7 @@
             <Label VerticalAlignment="Center" Foreground="White" FontSize="20" HorizontalAlignment="Center">Podaj ścieżkę:</Label>
         </Border>
         <TextBox Grid.ColumnSpan="2" Grid.Row="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" Name="Text"></TextBox>
-        <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" Name="Path"></TextBox>
-        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="35" Click="Button_Click1">Szyfruj</Button>
-        <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="35" Click="Button_Click2">Deszyfruj</Button>
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"  Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="35" Click="Button_Click1">Szyfruj tekst</Button>
+        <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="35" Click="Button_Click2">Szyfruj z pliku</Button>
     </Grid>
 </Window>
