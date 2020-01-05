@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Kod
 {
-    class Szyfr 
+    class Szyfr
     {
         public void main(string text)
         {
@@ -88,7 +88,6 @@ namespace Kod
             }
             MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
 
-
             // Descryption to ASCII
             string ASCII = "";
             bool[] bity = new bool[8];
@@ -103,15 +102,15 @@ namespace Kod
             MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
             return;
         }
-        
+
         public int j = 7;
         private string text1;
 
-        BigInteger power(BigInteger x, BigInteger y, BigInteger p)
+        MyBigType powerTo(MyBigType x, MyBigType y, MyBigType p)
         {
-            BigInteger res = new BigInteger(1);
+            MyBigType res = new MyBigType(1);
             x = x % p;
-            BigInteger zero = new BigInteger(0);
+            MyBigType zero = new MyBigType(0);
             while (y > zero)
             {
                 if ((y % 2) == 1)
@@ -128,18 +127,18 @@ namespace Kod
 
         List<bool> BlumMicali(int size)
         {
-            BigInteger a = new BigInteger(509);
-            BigInteger p = new BigInteger(521);
+            MyBigType a = new MyBigType(509);
+            MyBigType p = new MyBigType(521);
             var random = new Random();
-            BigInteger x0 = new BigInteger(random.Next(10, 500));
-            BigInteger x = new BigInteger(1);
+            MyBigType x0 = new MyBigType(random.Next(10, 500));
+            MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);
             MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
 
             for (int s = 0; s < size * 8; s++)
             {
-                x = power(a, x0, p);
+                x = powerTo(a, x0, p);
                 if (x > (p - 1) / 2) klucz.Add(true);
                 else klucz.Add(false);
                 x0 = x;
@@ -176,6 +175,6 @@ namespace Kod
             chars += (char)ch;
             return chars;
         }
-        
+
     }
 }
