@@ -69,42 +69,45 @@ namespace Kod
                 {
                     bits[m] = bitCipher[s * 8 + m];
                 }
-                ASCIICipher += BytesToChars(bits);
+            ASCIICipher += BytesToChars(bits);
             }
             help = ASCIICipher;
             MessageBox.Show(help, "ZASZYFROWANA WIADOMOSC W ASCII: ");
 
-            //Decryption
-            help = "";
-            List<bool> bytesDescription = new List<bool>();
-            for (int s = 0; s < text1.Length * 8; s++)
-            {
-                bytesDescription.Add(keyBytes[s] ^ bitCipher[s]);
-            }
-            for (int s = 0; s < bytesDescription.Count; s++)
-            {
-                help += Convert.ToInt32(bytesDescription[s]);
-                if ((s + 1) % 8 == 0) help += '\t';
-            }
-            MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
+            string texts = ASCIICipher;
+            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyTekst.txt", texts);
+            ////Decryption
+            //help = "";
+            //List<bool> bytesDescription = new List<bool>();
+            //for (int s = 0; s < text1.Length * 8; s++)
+            //{
+            //    bytesDescription.Add(keyBytes[s] ^ bitCipher[s]);
+            //}
+            //for (int s = 0; s < bytesDescription.Count; s++)
+            //{
+            //    help += Convert.ToInt32(bytesDescription[s]);
+            //    if ((s + 1) % 8 == 0) help += '\t';
+            //}
+            //MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
 
-            // Descryption to ASCII
-            string ASCII = "";
-            bool[] bity = new bool[8];
-            for (int s = 0; s < text1.Length; s++)
-            {
-                for (int m = 0; m < 8; m++)
-                {
-                    bity[m] = bytesDescription[s * 8 + m];
-                }
-                ASCII += BytesToChars(bity);
-            }
-            MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
+            //// Descryption to ASCII
+            //string ASCII = "";
+            //bool[] bity = new bool[8];
+            //for (int s = 0; s < text1.Length; s++)
+            //{
+            //    for (int m = 0; m < 8; m++)
+            //    {
+            //        bity[m] = bytesDescription[s * 8 + m];
+            //    }
+            //    ASCII += BytesToChars(bity);
+            //}
+            //MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
             return;
         }
 
         public int j = 7;
         private string text1;
+        private int x0i;
 
         MyBigType powerTo(MyBigType x, MyBigType y, MyBigType p)
         {
@@ -124,16 +127,19 @@ namespace Kod
             }
             return res;
         }
-
+        
         List<bool> BlumMicali(int size)
         {
             MyBigType a = new MyBigType(509);
             MyBigType p = new MyBigType(521);
             var random = new Random();
-            MyBigType x0 = new MyBigType(random.Next(10, 500));
+            x0i = random.Next(10, 500);
+            MyBigType x0 = new MyBigType(x0i);
             MyBigType x = new MyBigType(1);
-            //string ccout = "x0 = " + Convert.ToString(x0);
-            //MessageBox.Show(ccout);
+            string ccout = "x0 = " + Convert.ToString(x0);
+            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyKlucz.txt", Convert.ToString(x0));
+            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyRozmiar.txt", Convert.ToString(size));
+            MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
 
             for (int s = 0; s < size * 8; s++)

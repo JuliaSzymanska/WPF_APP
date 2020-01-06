@@ -22,5 +22,21 @@ namespace Kod
             Szyfr szyfr = new Szyfr();
             szyfr.main(text);
         }
+        private void Button_Click3(object sender, RoutedEventArgs e)
+        {
+            int key;
+            if (String.IsNullOrEmpty(Text.Text)) { MessageBox.Show("Nie podano tekstu!"); return; }
+            else { chain = Text.Text; key = Convert.ToInt32(Key.Text); }
+            Deszyfrowanie deszyfr = new Deszyfrowanie();
+            deszyfr.main(chain, key);
+        }
+        private void Button_Click4(object sender, RoutedEventArgs e)
+        {
+            int key;
+            string text = System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\Text.txt");
+            if (String.IsNullOrEmpty(text)) { MessageBox.Show("Plik jest pusty"); return; }
+            Deszyfrowanie deszyfr = new Deszyfrowanie();
+            deszyfr.main();
+        }
     }
 }
