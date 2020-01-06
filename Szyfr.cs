@@ -132,15 +132,15 @@ namespace Kod
             var random = new Random();
             MyBigType x0 = new MyBigType(random.Next(10, 500));
             MyBigType x = new MyBigType(1);
-            string ccout = "x0 = " + Convert.ToString(x0);
-            MessageBox.Show(ccout);
+            //string ccout = "x0 = " + Convert.ToString(x0);
+            //MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
 
             for (int s = 0; s < size * 8; s++)
             {
                 x = powerTo(a, x0, p);
-                if (x > (p - 1) / 2) klucz.Add(true);
-                else klucz.Add(false);
+                if (x > (p - 1) / 2) klucz.Add(false);
+                else klucz.Add(true);
                 x0 = x;
             }
             return klucz;

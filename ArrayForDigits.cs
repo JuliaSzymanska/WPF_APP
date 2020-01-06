@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kod
 {
-    using unsignIn = System.UInt32; //liczby całkowite bez znaku z wartościami z zakresu od 0 do 4 294 967 295
+    using unsignIn = System.UInt32; //unsigned int with values from 0 to 4 294 967 295
     public class ArrayForDigits
     {
         internal ArrayForDigits(int size)
