@@ -75,33 +75,7 @@ namespace Kod
             MessageBox.Show(help, "ZASZYFROWANA WIADOMOSC W ASCII: ");
 
             string texts = ASCIICipher;
-            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyTekst.txt", texts);
-            ////Decryption
-            //help = "";
-            //List<bool> bytesDescription = new List<bool>();
-            //for (int s = 0; s < text1.Length * 8; s++)
-            //{
-            //    bytesDescription.Add(keyBytes[s] ^ bitCipher[s]);
-            //}
-            //for (int s = 0; s < bytesDescription.Count; s++)
-            //{
-            //    help += Convert.ToInt32(bytesDescription[s]);
-            //    if ((s + 1) % 8 == 0) help += '\t';
-            //}
-            //MessageBox.Show(help, "ODSZYFROWANY CIAG BITOW:");
-
-            //// Descryption to ASCII
-            //string ASCII = "";
-            //bool[] bity = new bool[8];
-            //for (int s = 0; s < text1.Length; s++)
-            //{
-            //    for (int m = 0; m < 8; m++)
-            //    {
-            //        bity[m] = bytesDescription[s * 8 + m];
-            //    }
-            //    ASCII += BytesToChars(bity);
-            //}
-            //MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
+            System.IO.File.WriteAllText(@".\ZaszyfrowanyTekst.txt", texts);
             return;
         }
 
@@ -137,8 +111,8 @@ namespace Kod
             MyBigType x0 = new MyBigType(x0i);
             MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);
-            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyKlucz.txt", Convert.ToString(x0));
-            System.IO.File.WriteAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyRozmiar.txt", Convert.ToString(size));
+            System.IO.File.WriteAllText(@".\ZaszyfrowanyKlucz.txt", Convert.ToString(x0));
+            System.IO.File.WriteAllText(@".\ZaszyfrowanyRozmiar.txt", Convert.ToString(size));
             MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
 
