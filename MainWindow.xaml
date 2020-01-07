@@ -31,10 +31,9 @@
         </Border>
         <TextBox Grid.ColumnSpan="2" Grid.Row="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" Name="Text"></TextBox>
         <TextBox Grid.Column="1" Grid.Row="3" Width="400" Height="100" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" Name="Key"></TextBox>
-        <TextBox Grid.Column="4" Grid.Row="3"  Grid.RowSpan="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="25" TextAlignment="Center" Name="KeyP"></TextBox>
         <Button Grid.Column="0"  Grid.Row="3" Grid.RowSpan="2"  Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="25" Click="Button_Click1">Szyfruj tekst</Button>
         <Button Grid.Column="1"  Grid.Row="5"  Width="400" Height="100" HorizontalAlignment="Center" FontSize="25" Click="Button_Click3">Deszyfruj tekst</Button>
         <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Width="400" Height="Auto" HorizontalAlignment="Center" FontSize="35" Click="Button_Click2">Szyfruj z pliku</Button>
-        <Button Grid.Column="2"  Grid.RowSpan="2" Grid.Row="3"  Width="400" Height="200" HorizontalAlignment="Center" FontSize="25" Click="Button_Click4">Deszyfruj z pliku</Button>
+        <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3"  Width="400" Height="200" HorizontalAlignment="Center" FontSize="25" Click="Button_Click4">Deszyfruj z pliku</Button>
     </Grid>
 </Window>
