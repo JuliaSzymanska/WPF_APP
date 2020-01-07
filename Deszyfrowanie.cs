@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 
@@ -7,7 +8,7 @@ namespace Kod
 {
     public class Deszyfrowanie
     {
-        private int size = Convert.ToInt32(System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyRozmiar.txt"));
+        private int size = Convert.ToInt32(System.IO.File.ReadAllText(Path.GetFullPath(@".\ZaszyfrowanyRozmiar.txt")));
         public void main(string text, int key)
         {
             // To bytes
@@ -79,7 +80,7 @@ namespace Kod
         public void main()
         {
             // To bytes
-            string text = System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyTekst.txt");
+            string text = System.IO.File.ReadAllText(@"ZaszyfrowanyTekst.txt");
             text1 = text;
             MessageBox.Show(text1, "Podany tekst to: ");
             char sign;
@@ -170,7 +171,7 @@ namespace Kod
         {
             MyBigType a = new MyBigType(509);
             MyBigType p = new MyBigType(521);
-            int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyKlucz.txt"));
+            int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"ZaszyfrowanyKlucz.txt"));
             MyBigType x0 = new MyBigType(key);
             MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);
@@ -191,7 +192,7 @@ namespace Kod
         {
             MyBigType a = new MyBigType(509);
             MyBigType p = new MyBigType(521);
-            int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\ZaszyfrowanyKlucz.txt"));
+            int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"ZaszyfrowanyKlucz.txt"));
             MyBigType x0 = new MyBigType(x0i);
             MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);

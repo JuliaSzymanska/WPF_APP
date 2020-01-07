@@ -10,4 +10,11 @@
     <Compile Remove="BigInteger.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Text.txt" />
+    <None Remove="ZaszyfrowanyKlucz.txt" />
+    <None Remove="ZaszyfrowanyRozmiar.txt" />
+    <None Remove="ZaszyfrowanyTekst.txt" />
+  </ItemGroup>
+
 </Project>

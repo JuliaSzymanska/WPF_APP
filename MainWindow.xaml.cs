@@ -17,7 +17,7 @@ namespace Kod
             szyfr.main(chain);
         }
         private void Button_Click2(object sender, RoutedEventArgs e){
-            string text = System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\Text.txt");
+            string text = System.IO.File.ReadAllText(@".\Text.txt");
             if (String.IsNullOrEmpty(text)) { MessageBox.Show("Plik jest pusty"); return;}
             Szyfr szyfr = new Szyfr();
             szyfr.main(text);
@@ -33,7 +33,7 @@ namespace Kod
         private void Button_Click4(object sender, RoutedEventArgs e)
         {
             int key;
-            string text = System.IO.File.ReadAllText(@"D:\Dokumenty\Studia\3_semestr\Kryptografia\WPF_APP\Text.txt");
+            string text = System.IO.File.ReadAllText(@".\Text.txt");
             if (String.IsNullOrEmpty(text)) { MessageBox.Show("Plik jest pusty"); return; }
             Deszyfrowanie deszyfr = new Deszyfrowanie();
             deszyfr.main();
