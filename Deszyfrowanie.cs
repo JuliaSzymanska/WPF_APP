@@ -11,31 +11,26 @@ namespace Kod
         private int size = Convert.ToInt32(System.IO.File.ReadAllText(Path.GetFullPath(@".\ZaszyfrowanyRozmiar.txt")));
         public void main(string text, int key)
         {
-            // To bytes
-            text1 = text;
-            
-            MessageBox.Show(text1, "Podany tekst to: ");
+            string help = "";
             char sign;
             int i = 0;
-            bool[] charByte;
+            bool h = false;
             List<bool> BytesText = new List<bool>();
-            while (i < size)
+            while (i < size * 8)
             {
-                sign = text1[i];
-                charByte = CharsToBytes(sign);
-                for (int k = 0; k < 8; k++)
-                {
-                    BytesText.Add(charByte[k]);
-                }
+                sign = text[i];
+                if (sign == '1') h = true;
+                else if (sign == '0') h = false;
+                BytesText.Add(h);
                 i++;
             }
-            string help = "";
+            help = "";
             for (int u = 0; u < size * 8; u++)
             {
                 help += Convert.ToString(Convert.ToInt32(BytesText[u]));
                 if ((u + 1) % 8 == 0) help += '\t';
             }
-            MessageBox.Show(help, " POSTAC BINARNA: ");
+            MessageBox.Show(help, "Podany zaszyfrowany tekst to: ");
 
             // Generate key
             List<bool> keyBytes = new List<bool>();
@@ -82,28 +77,27 @@ namespace Kod
             // To bytes
             string text = System.IO.File.ReadAllText(@"ZaszyfrowanyTekst.txt");
             text1 = text;
-            MessageBox.Show(text1, "Podany tekst to: ");
+            string help = "";
+            
             char sign;
             int i = 0;
-            bool[] charByte;
+            bool h= false;
             List<bool> BytesText = new List<bool>();
-            while (i < size)
+            while (i < size * 8)
             {
                 sign = text1[i];
-                charByte = CharsToBytes(sign);
-                for (int k = 0; k < 8; k++)
-                {
-                    BytesText.Add(charByte[k]);
-                }
+                if (sign == '1') h = true; 
+                else if (sign == '0') h = false;
+                    BytesText.Add(h);
                 i++;
             }
-            string help = "";
+            help = "";
             for (int u = 0; u < size * 8; u++)
             {
                 help += Convert.ToString(Convert.ToInt32(BytesText[u]));
                 if ((u + 1) % 8 == 0) help += '\t';
             }
-            MessageBox.Show(help, " POSTAC BINARNA: ");
+            MessageBox.Show(help, "Podany zaszyfrowany tekst to: ");
 
             // Generate key
             List<bool> keyBytes = new List<bool>();

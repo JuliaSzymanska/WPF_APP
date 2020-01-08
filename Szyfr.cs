@@ -46,6 +46,7 @@ namespace Kod
 
             //Encryption
             help = "";
+            string txt="";
             List<bool> bitCipher = new List<bool>();
 
             for (int s = 0; s < text1.Length * 8; s++)
@@ -55,6 +56,7 @@ namespace Kod
             for (int s = 0; s < text1.Length * 8; s++)
             {
                 help += Convert.ToInt32(bitCipher[s]);
+                txt += Convert.ToInt32(bitCipher[s]);
                 if ((s + 1) % 8 == 0) help += '\t';
             }
             MessageBox.Show(help, "ZASZYFROWANY CIAG BITOW:");
@@ -69,12 +71,12 @@ namespace Kod
                 {
                     bits[m] = bitCipher[s * 8 + m];
                 }
-            ASCIICipher += BytesToChars(bits);
+                ASCIICipher += BytesToChars(bits);
             }
             help = ASCIICipher;
             MessageBox.Show(help, "ZASZYFROWANA WIADOMOSC W ASCII: ");
 
-            string texts = ASCIICipher;
+            string texts = Convert.ToString(txt);
             System.IO.File.WriteAllText(@".\ZaszyfrowanyTekst.txt", texts);
             return;
         }
