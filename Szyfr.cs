@@ -114,7 +114,6 @@ namespace Kod
             MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);
             System.IO.File.WriteAllText(@".\ZaszyfrowanyKlucz.txt", Convert.ToString(x0));
-            System.IO.File.WriteAllText(@".\ZaszyfrowanyRozmiar.txt", Convert.ToString(size));
             MessageBox.Show(ccout);
             List<bool> klucz = new List<bool>();
 

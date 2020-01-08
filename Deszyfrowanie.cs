@@ -8,9 +8,9 @@ namespace Kod
 {
     public class Deszyfrowanie
     {
-        private int size = Convert.ToInt32(System.IO.File.ReadAllText(Path.GetFullPath(@".\ZaszyfrowanyRozmiar.txt")));
         public void main(string text, int key)
         {
+            size = text.Length / 8;
             string help = "";
             char sign;
             int i = 0;
@@ -71,12 +71,13 @@ namespace Kod
             MessageBox.Show(ASCII, "ODSZYFROWANA WIADOMOSC: ");
             return;
         }
-
+        private int size;
         public void main()
         {
             // To bytes
             string text = System.IO.File.ReadAllText(@"ZaszyfrowanyTekst.txt");
             text1 = text;
+            size = text1.Length / 8;
             string help = "";
             
             char sign;
