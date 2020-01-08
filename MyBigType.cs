@@ -43,22 +43,18 @@ namespace Kod
             ConstructFrom(array, 0, array.Length);
         }
 
-        /// <summary>
-        /// Creates a BigInteger initialized from the byte array ending at <paramref name="length" />.
-        /// </summary>
-        /// <param name="array">A byte array.</param>
-        /// <param name="length">Int number of bytes to use.</param>
+        // Creates a BigInteger initialized from the byte array ending at <paramref name="length" />.
+        // <param name="array">A byte array.</param>
+        // <param name="length">Int number of bytes to use.</param>
         public MyBigType(byte[] array, int length)
         {
             ConstructFrom(array, 0, length);
         }
 
-        /// <summary>
-        /// Creates a BigInteger initialized from <paramref name="length" /> bytes starting at <paramref name="offset" />.
-        /// </summary>
-        /// <param name="array">A byte array.</param>
-        /// <param name="offset">Int offset into the <paramref name="array" />.</param>
-        /// <param name="length">Int number of bytes.</param>
+        // Creates a BigInteger initialized from <paramref name="length" /> bytes starting at <paramref name="offset" />.
+        // <param name="array">A byte array.</param>
+        // <param name="offset">Int offset into the <paramref name="array" />.</param>
+        // <param name="length">Int number of bytes.</param>
         public MyBigType(byte[] array, int offset, int length)
         {
             ConstructFrom(array, offset, length);
@@ -211,27 +207,15 @@ namespace Kod
             return new MyBigType(da);
         }
 
-        /// <summary>
-        /// Adds two BigIntegers and returns a new BigInteger that represents the sum.
-        /// </summary>
-        /// <param name="leftSide">A BigInteger</param>
-        /// <param name="rightSide">A BigInteger</param>
-        /// <returns>The BigInteger result of adding <paramref name="leftSide" /> and <paramref name="rightSide" />.</returns>
-        //public static BigInteger Add(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide + rightSide;	
-        //}
+        // <param name="leftSide">A BigInteger</param>
+        // <param name="rightSide">A BigInteger</param>
+        // <returns>The BigInteger result of adding <paramref name="leftSide" /> and <paramref name="rightSide" />.</returns>
 
         // Overload ++ operand, increments the BigInteger operand by 1
         public static MyBigType operator ++(MyBigType leftSide)
         {
             return (leftSide + 1);
         }
-
-        //public static BigInteger Increment(BigInteger leftSide)
-        //{
-        //	return (leftSide + 1);
-        //}
 
         public static MyBigType operator -(MyBigType leftSide, MyBigType rightSide)
         {
@@ -258,11 +242,6 @@ namespace Kod
         {
             return (leftSide - 1);
         }
-
-        //public static BigInteger Decrement(BigInteger leftSide)
-        //{
-        //	return (leftSide - 1);
-        //}
 
         public static MyBigType operator -(MyBigType leftSide)
         {
@@ -355,11 +334,6 @@ namespace Kod
             return (leftSideNeg != rightSideNeg ? -result : result);
         }
 
-        //public static BigInteger Multiply(BigInteger leftSide, BigInteger rightSide)
-        //	{
-        //		return leftSide * rightSide;
-        //	}
-
         public static MyBigType operator /(MyBigType leftSide, MyBigType rightSide)
         {
             if (leftSide == null)
@@ -393,11 +367,6 @@ namespace Kod
 
             return (dividendNeg != divisorNeg ? -quotient : quotient);
         }
-
-        //public static BigInteger Divide(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide / rightSide;
-        //}
 
         private static void Divide(MyBigType leftSide, MyBigType rightSide, out MyBigType quotient, out MyBigType remainder)
         {
@@ -576,11 +545,6 @@ namespace Kod
             return (dividendNeg ? -remainder : remainder);
         }
 
-        //public static BigInteger Modulus(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide % rightSide;
-        //}
-
         public MyBigType Pow(MyBigType power)
         {
             return Pow(this, power);
@@ -630,11 +594,6 @@ namespace Kod
             return new MyBigType(da);
         }
 
-        //public static BigInteger BitwiseAnd(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide & rightSide;
-        //}
-
         public static MyBigType operator |(MyBigType leftSide, MyBigType rightSide)
         {
             int len = System.Math.Max(leftSide.m_digits.DataUsed, rightSide.m_digits.DataUsed);
@@ -645,11 +604,6 @@ namespace Kod
             }
             return new MyBigType(da);
         }
-
-        //public static BigInteger BitwiseOr(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide | rightSide;
-        //}
 
         public static MyBigType operator ^(MyBigType leftSide, MyBigType rightSide)
         {
@@ -662,11 +616,6 @@ namespace Kod
             return new MyBigType(da);
         }
 
-        //public static BigInteger Xor(BigInteger leftSide, BigInteger rightSide)
-        //{
-        //	return leftSide ^ rightSide;
-        //}
-
         public static MyBigType operator ~(MyBigType leftSide)
         {
             ArrayForDigits da = new ArrayForDigits(leftSide.m_digits.Count);
@@ -677,11 +626,6 @@ namespace Kod
 
             return new MyBigType(da);
         }
-
-        //public static BigInteger OnesComplement(BigInteger leftSide)
-        //{
-        //	return ~leftSide;
-        //}
 
         public static MyBigType operator <<(MyBigType leftSide, int shiftCount)
         {
@@ -695,11 +639,6 @@ namespace Kod
 
             return new MyBigType(da);
         }
-
-        //public static BigInteger LeftShift(BigInteger leftSide, int shiftCount)
-        //{
-        //	return leftSide << shiftCount;
-        //}
 
         public static MyBigType operator >>(MyBigType leftSide, int shiftCount)
         {
@@ -947,77 +886,7 @@ namespace Kod
             {
                 return "-" + result;
             }
-
             return result;
         }
-
-        //public string ToHexString()
-        //{
-        //    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        //    sb.AppendFormat("{0:X}", m_digits[m_digits.DataUsed - 1]);
-
-        //    string f = "{0:X" + (2 * DigitsArray.DataSizeOf) + "}";
-        //    for (int i = m_digits.DataUsed - 2; i >= 0; i--)
-        //    {
-        //        sb.AppendFormat(f, m_digits[i]);
-        //    }
-
-        //    return sb.ToString();
-        //}
-
-        //public static int ToInt16(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.Int16.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
-        //public static uint ToUInt16(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.UInt16.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
-        //public static int ToInt32(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.Int32.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
-        //public static uint ToUInt32(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.UInt32.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
-        //public static long ToInt64(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.Int64.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
-        //public static ulong ToUInt64(BigInteger value)
-        //{
-        //    if (object.ReferenceEquals(value, null))
-        //    {
-        //        throw new ArgumentNullException("value");
-        //    }
-        //    return System.UInt64.Parse(value.ToString(), System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.CurrentCulture);
-        //}
-
     }
 }

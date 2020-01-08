@@ -32,7 +32,6 @@ namespace Kod
         }
         private void Button_Click4(object sender, RoutedEventArgs e)
         {
-            int key;
             string text = System.IO.File.ReadAllText(@".\Text.txt");
             if (String.IsNullOrEmpty(text)) { MessageBox.Show("Plik jest pusty"); return; }
             Deszyfrowanie deszyfr = new Deszyfrowanie();
