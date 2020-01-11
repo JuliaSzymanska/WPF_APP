@@ -26,6 +26,11 @@ namespace Kod
             m_digits.ResetDataUsed();
         }
 
+        public MyBigType(MyBigType m)
+        {
+            m_digits = m.m_digits;
+        }
+
         public MyBigType(ulong number)
         {
             m_digits = new ArrayForDigits((8 / ArrayForDigits.DataSizeOf) + 1, 0);
@@ -545,6 +550,22 @@ namespace Kod
             return (dividendNeg ? -remainder : remainder);
         }
 
+        public MyBigType findPrime(MyBigType a)
+        {
+            bool isPrime = true;
+            MyBigType i = new MyBigType(2);
+            for (; ; a++)
+            {
+                while (i < a && isPrime == true)
+                {
+                    if (a % i == 0) { isPrime = false; }
+                    i++;
+                }
+                i = 2;
+                isPrime = true;
+            }
+        }
+
         public MyBigType Pow(MyBigType power)
         {
             return Pow(this, power);
@@ -672,6 +693,148 @@ namespace Kod
 
             return new MyBigType(da);
         }
+
+
+
+
+        //// Returns true if n is prime 
+        //public static bool isPrime(MyBigType n)
+        //{
+        //    // Corner cases 
+        //    if (n <= 1)
+        //    {
+        //        return false;
+        //    }
+        //    if (n <= 3)
+        //    {
+        //        return true;
+        //    }
+
+        //    // This is checked so that we can skip 
+        //    // middle five numbers in below loop 
+        //    if (n % 2 == 0 || n % 3 == 0)
+        //    {
+        //        return false;
+        //    }
+
+        //    for (MyBigType i = 5; i * i <= n; i = i + 6)
+        //    {
+        //        if (n % i == 0 || n % (i + 2) == 0)
+        //        {
+        //            return false;
+        //        }
+        //    }
+
+        //    return true;
+        //}
+
+        ///* Iterative Function to calculate (x^n)%p in 
+        //O(logy) */
+        //public static MyBigType power(MyBigType x, MyBigType y, MyBigType p)
+        //{
+        //    MyBigType res = 1;     // Initialize result 
+
+        //    x = x % p; // Update x if it is more than or 
+        //               // equal to p 
+
+        //    while (y > 0)
+        //    {
+        //        // If y is odd, multiply x with result 
+        //        if (y % 2 == 1)
+        //        {
+        //            res = (res * x) % p;
+        //        }
+
+        //        // y must be even now 
+        //        y = y >> 1; // y = y/2 
+        //        x = (x * x) % p;
+        //    }
+        //    return res;
+        //}
+
+        //// Utility function to store prime factors of a number 
+        //public static void findPrimefactors(HashSet<MyBigType> s, MyBigType n)
+        //{
+        //    // Print the number of 2s that divide n 
+        //    while (n % 2 == 0)
+        //    {
+        //        s.Add(2);
+        //        n = n / 2;
+        //    }
+
+        //    // n must be odd at this point. So we can skip 
+        //    // one element (Note i = i +2) 
+        //    for (int i = 3; i <= n.Pow(2); i = i + 2)
+        //    {
+        //        // While i divides n, print i and divide n 
+        //        while (n % i == 0)
+        //        {
+        //            s.Add(i);
+        //            n = n / i;
+        //        }
+        //    }
+
+        //    // This condition is to handle the case when 
+        //    // n is a prime number greater than 2 
+        //    if (n > 2)
+        //    {
+        //        s.Add(n);
+        //    }
+        //}
+
+        //// Function to find smallest primitive root of n 
+        //public static MyBigType findPrimitive(MyBigType n)
+        //{
+        //    HashSet<MyBigType> s = new HashSet<MyBigType>();
+
+        //    // Check if n is prime or not 
+        //    if (isPrime(n) == false)
+        //    {
+        //        return -1;
+        //    }
+
+        //    // Find value of Euler Totient function of n 
+        //    // Since n is a prime number, the value of Euler 
+        //    // Totient function is n-1 as there are n-1 
+        //    // relatively prime numbers. 
+        //    MyBigType phi = n - 1;
+
+        //    // Find prime factors of phi and store in a set 
+        //    findPrimefactors(s, phi);
+
+        //    // Check for every number from 2 to phi 
+        //    for (int r = 2; r <= phi; r++)
+        //    {
+        //        // Iterate through all prime factors of phi. 
+        //        // and check if we found a power with value 1 
+        //        bool flag = false;
+        //        foreach (MyBigType a in s)
+        //        {
+
+        //            // Check if r^((phi)/primefactors) mod n 
+        //            // is 1 or not 
+        //            if (power(r, phi / (a), n) == 1)
+        //            {
+        //                flag = true;
+        //                break;
+        //            }
+        //        }
+
+        //        // If there was no power with value 1. 
+        //        if (flag == false)
+        //        {
+        //            return r;
+        //        }
+        //    }
+
+        //    // If no primitive root found 
+        //    return -1;
+        //}
+
+
+
+
+
 
         public static MyBigType RightShift(MyBigType leftSide, int shiftCount)
         {

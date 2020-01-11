@@ -143,30 +143,44 @@ namespace Kod
         public int j = 7;
         private string text1;
 
-        MyBigType powerTo(MyBigType x, MyBigType y, MyBigType p)
+        //MyBigType powerTo(MyBigType x, MyBigType y, MyBigType p)
+        //{
+        //    MyBigType res = new MyBigType(1);
+        //    x = x % p;
+        //    MyBigType zero = new MyBigType(0);
+        //    while (y > zero)
+        //    {
+        //        if ((y % 2) == 1)
+        //        {
+        //            res *= x;
+        //            res = res % p;
+        //        }
+        //        x *= x;
+        //        x = x % p;
+        //        y /= 2;
+        //    }
+        //    return res;
+        //}
+
+        static MyBigType powermodulo(MyBigType x, MyBigType y, MyBigType p)
         {
-            MyBigType res = new MyBigType(1);
+            MyBigType res = 1;
             x = x % p;
-            MyBigType zero = new MyBigType(0);
-            while (y > zero)
+
+            while (y > 0)
             {
-                if ((y % 2) == 1)
-                {
-                    res *= x;
-                    res = res % p;
-                }
-                x *= x;
-                x = x % p;
-                y /= 2;
+                if ((y & 1) == 1)
+                    res = (res * x) % p;
+                y = y >> 1;
+                x = (x * x) % p;
             }
             return res;
         }
 
         List<bool> BlumMicali(int size, int key)
         {
-            MyBigType a = new MyBigType(509);
-            MyBigType p = new MyBigType(521);
-            int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"ZaszyfrowanyKlucz.txt"));
+            MyBigType g = new MyBigType("1347981406723692103108327603051596927581014069867");
+            MyBigType p = new MyBigType("1347981406723692103108327603051596927581014069863");
             MyBigType x0 = new MyBigType(key);
             MyBigType x = new MyBigType(1);
             string ccout = "x0 = " + Convert.ToString(x0);
@@ -175,7 +189,7 @@ namespace Kod
 
             for (int s = 0; s < size * 8; s++)
             {
-                x = powerTo(a, x0, p);
+                x = powermodulo(g, x0, p);
                 if (x > (p - 1) / 2) klucz.Add(false);
                 else klucz.Add(true);
                 x0 = x;
@@ -185,8 +199,8 @@ namespace Kod
 
         List<bool> BlumMicali(int size)
         {
-            MyBigType a = new MyBigType(509);
-            MyBigType p = new MyBigType(521);
+            MyBigType g = new MyBigType("1347981406723692103108327603051596927581014069867");
+            MyBigType p = new MyBigType("1347981406723692103108327603051596927581014069863");
             int x0i = Convert.ToInt32(System.IO.File.ReadAllText(@"ZaszyfrowanyKlucz.txt"));
             MyBigType x0 = new MyBigType(x0i);
             MyBigType x = new MyBigType(1);
@@ -196,7 +210,7 @@ namespace Kod
 
             for (int s = 0; s < size * 8; s++)
             {
-                x = powerTo(a, x0, p);
+                x = powermodulo(g, x0, p);
                 if (x > (p - 1) / 2) klucz.Add(false);
                 else klucz.Add(true);
                 x0 = x;
